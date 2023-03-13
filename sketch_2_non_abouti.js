@@ -1,3 +1,11 @@
+/* - - - palette - - - */
+//Balmy, Calm, Quiet
+// Couleurs du lever et du coucher du soleil
+/*
+Les trois premières couleurs (lever du soleil) sont pastels pour contraster avec celles des trois dernières (coucher du soleil) qui sont plus saturée
+
+De plus, s'ajoute au contraste, les couleurs complémentaires bleu et jaune, les deux couleurs qui ressortent le plus
+*/
 
 let colours = [
   "#000000",
@@ -18,44 +26,51 @@ let taille_rect = 1.5;
 let division_X = 16*3*4*2;
 let division_Y = 16*2*4*2;
 
-function push_array(tour){
+function push_array(type = 10){
+  let distrib = [];
+  switch(type){
+    case 10: distrib = [10, 3, 2, 1];
+    break;
+    case 3: distrib = [3, 10, 1, 2];
+    break;
+    case 2: distrib = [2, 1, 10, 3];
+    break;
+    case 1: distrib = [1, 2, 3, 10];
+    break;
+  }
+  
   let data_ = [];
-  for(let i = 0; i < 10*tour; i++){
+  for(let i = 0; i < (distrib[0]); i++){
     data_.push(10);
   }
-  for(let i = 0; i < 3*tour; i++){
+  for(let i = 0; i < distrib[1]; i++){
     data_.push(3);
   }
-  for(let i = 0; i < 2*tour; i++){
+  for(let i = 0; i < distrib[2]; i++){
     data_.push(2);
   }
-  for(let i = 0; i < 1*tour; i++){
+  for(let i = 0; i < distrib[3]; i++){
     data_.push(1);
   }
-  if(ceil(tour) - tour != 0){
-    let tmp = (int)(Math.random()*4);
-    data_.push(tmp == 0?10:tmp == 1?3:tmp == 2?2:1)
-  }
-
   return data_;
 }
 
 function setup() {
-  createCanvas(division_X*taille_rect+50, division_Y*taille_rect+50);
+  createCanvas(division_X*taille_rect, division_Y*taille_rect);
   noStroke()
   noLoop()
-  
   
 }
 
 function draw() {
   
-  let data_1 = push_array(1);
+  let data_1 = push_array();
   let superfield = [];
   while (data_1.length) {
     superfield.push(data_1.splice(data_1.length * Math.random() | 0, 1)[0]);
   }
-
+  
+  /*
   data_1 = push_array(4.75);
   let largefield = [];
   while (data_1.length) {
@@ -68,9 +83,13 @@ function draw() {
   while (data_1.length) {
     smallfield.push(data_1.splice(data_1.length * Math.random() | 0, 1)[0]);
   }
+  */
 
 
+  let largefield = [];
+  let smallfield = [];
   for(let i=0; i < division_X; i++){
+    
     for(let j=0; j < division_Y; j++){
       //let ran = data.splice(data.length * Math.random() | 0, 1)[0];
       let ligne_1   = (int)(i/(int)(division_X/4))
@@ -87,23 +106,51 @@ function draw() {
       let add_3 = (ligne_3)*4+(colonne_3)
 
       
-      let sup = superfield[add_1]
+      
+      
+      if(largefield[add_2] == undefined || largefield[add_2].length == 0){
+        //console.log("here_1")
+        largefield[add_2] = push_array(superfield[add_1]);
+      } 
+      //console.log("add_2 : "+ add_2 + " largeF[add_1] : "+ largefield[add_2])
+      let large = []
+      large.push(largefield[add_2].splice(largefield[add_2].length * Math.random() | 0, 1)[0]);
+      //console.log("sup : " + sup)
+      
+      //console.log(add_2)
+
+      if(smallfield[add_3] == undefined || smallfield[add_3].length == 0){
+        smallfield[add_3] = push_array(large.pop());
+        //console.log("here_2 :" + push_array(large.pop()));
+      } 
+      //console.log("add_3 : "+ add_3 + " large : " + large + " large retour: " +push_array(large))
+      let small = []
+      small = (smallfield[add_3].splice(smallfield[add_3].length * Math.random() | 0, 1)[0]);
+      //console.log("small : " + small)
+
+      //console.log("add_3 : " + add_3)
+      //console.log("smallF : " + smallfield[add_3])
+      //console.log(smallfield[add_3].splice(smallfield[add_3].length * Math.random() | 0, 1)[0])
+      //console.log("large : " + large)
+      
+      /*
       let large = largefield[add_2]
       let small = smallfield[add_3]
+      */
 
-      let ran = (int)(Math.random()*3);
+      //let ran = (int)(Math.random()*3);
       //console.log(ran)
-      let palette = ran == 0?small:ran == 1?large:sup;
-      remplissage(palette);
+      //let palette = ran == 0?small:ran == 1?large:sup;
+      remplissage(small);
       
      //fill(ran)
       
-      rect(i*taille_rect+50, j*taille_rect+50, taille_rect, taille_rect);     
+      rect(i*taille_rect, j*taille_rect, taille_rect, taille_rect);     
     }  
   }
-  save('recording.png');
 }
 function remplissage(palette){
+  //console.log("pal : " + palette)
   switch(palette){
         case 10:
           fill(dense_1[(int)(dense_1.length * Math.random())]);
@@ -127,4 +174,6 @@ function remplissage(palette){
         
   }
 }
-
+function mousePressed() {
+  setup();
+}
