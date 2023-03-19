@@ -50,7 +50,7 @@ function fill_field() {
 
 function setup() {
   button = createButton('new distribution');
-  button.style("margin-top", "2.5vw")
+  button.style("margin-top", "1vw")
   button.center()
 
   button.mousePressed(fill_field);
