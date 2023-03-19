@@ -13,7 +13,7 @@ let colours = [
 let dense_1 = [colours[0], colours[0], colours[1]]
 let dense_2 = [colours[0], colours[0], colours[0], colours[0], colours[1], colours[1], colours[1]]
 let dense_3 = [colours[0], colours[0], colours[0], colours[1], colours[1], colours[1], colours[1]]
-let dense_4 = [colours[0], colours[1], colours[1], colours[1]]
+let dense_4 = [colours[0], colours[1], colours[1]]
 
 
 
@@ -49,7 +49,9 @@ function fill_field() {
 }
 
 function setup() {
+  //slider.position(155, 0);
   button = createButton('new distribution');
+  //button.position(50, 0);
   button.style("margin-top", "2.5vw")
   button.center()
 
@@ -105,17 +107,25 @@ function draw() {
 
   for (let i = 0; i < division_X; i++) {
     for (let j = 0; j < division_Y; j++) {
-      let ligne_1 = (int)(i / (int)(division_X / 4));
-      let colonne_1 = (int)(j / (int)(division_Y / 4));
-      let add_1 = (ligne_1) * 4 + (colonne_1);
+      //let ran = data.splice(data.length * Math.random() | 0, 1)[0];
+      let ligne_1 = (int)(i / (int)(division_X / 4))
+      let colonne_1 = (int)(j / (int)(division_Y / 4))
+      let add_1 = (ligne_1) * 4 + (colonne_1)
 
-      let ligne_2 = (int)(i / (int)(division_X / 16));
-      let colonne_2 = (int)(j / (int)(division_Y / 16));
+      let ligne_2 = (int)(i / (int)(division_X / 16))
+      let colonne_2 = (int)(j / (int)(division_Y / 16))
+      /*
+      
+      let add_2 = (ligne_2) * 4 + (colonne_2)
+      */
 
-      let add_2 = add_1 * 16 + ligne_2 % 8 + colonne_2 % 12;
+      let add_2 = add_1 * 16 + ligne_2 % 8 + colonne_2 % 12
 
-      let ligne_3 = (int)(i / (int)(division_X / 32));
-      let colonne_3 = (int)(j / (int)(division_Y / 32));
+      //console.log(add_2);
+
+      let ligne_3 = (int)(i / (int)(division_X / 32))
+      let colonne_3 = (int)(j / (int)(division_Y / 32))
+      //let add_3 = (ligne_3) * 4 + (colonne_3)
       let add_3 = add_1 * 32 + ligne_3 % 8 + colonne_3 % 12
 
 
@@ -124,29 +134,37 @@ function draw() {
       let small = smallfield[add_3]
       let ran = (int)(Math.random() * 3);
       let palette = ran == 0 ? small : ran == 1 ? large : sup;
+
+      //let palette = ran == 0 ? small : large;
       remplissage(palette);
 
+      //fill(ran)
 
       rect(i * taille_rect, j * taille_rect + 50, taille_rect, taille_rect);
     }
   }
+  //save('recording.png');
 }
 function remplissage(palette) {
   switch (palette) {
     case 10:
       fill(dense_1[(int)(dense_1.length * Math.random())]);
+      //fill(dense_1[(int)((mouseX * Math.random())%dense_1.length)]);
       break;
 
     case 3:
       fill(dense_2[(int)(dense_2.length * Math.random())]);
+      //fill(dense_2[(int)((mouseX * Math.random())%dense_2.length)]);
       break;
 
     case 2:
       fill(dense_3[(int)(dense_3.length * Math.random())]);
+      //fill(dense_3[(int)((mouseX * Math.random())%dense_3.length)]);
       break;
 
     case 1:
       fill(dense_4[(int)(dense_4.length * Math.random())]);
+      //fill(dense_4[(int)((mouseX * Math.random())%dense_4.length)]);
       break;
 
   }
